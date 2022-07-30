@@ -308,7 +308,7 @@ class build_ext(_build_ext):
 
             # Generate the build files
             print("-- Running cmake for pyarrow")
-            self.spawn(['cmake'] + extra_cmake_args + cmake_options + [source])
+            self.spawn(['emcmake', 'cmake'] + extra_cmake_args + cmake_options + [source])
             print("-- Finished cmake for pyarrow")
 
             print("-- Running cmake --build for pyarrow")

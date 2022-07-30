@@ -164,11 +164,13 @@ macro(arrow_find_package_home)
     # CMAKE_FIND_LIBRARY_SUFFIXES.
     list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES "${CMAKE_SHARED_LIBRARY_SUFFIX}")
   endif()
+  set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER)  # https://stackoverflow.com/a/30721793/13103190
   find_library(${prefix}_shared_lib
                NAMES "${shared_lib_name}"
                PATHS "${home}"
                PATH_SUFFIXES ${ARROW_SEARCH_LIB_PATH_SUFFIXES}
                NO_DEFAULT_PATH)
+  set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)  # https://stackoverflow.com/a/30721793/13103190
   if(MSVC_TOOLCHAIN)
     set(CMAKE_SHARED_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES_ORIGINAL})
   endif()
@@ -183,11 +185,13 @@ macro(arrow_find_package_home)
       set_target_properties(${target_shared} PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
                                                         "${include_dir}")
     endif()
+    set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER)  # https://stackoverflow.com/a/30721793/13103190
     find_library(${prefix}_import_lib
                  NAMES "${import_lib_name}"
                  PATHS "${home}"
                  PATH_SUFFIXES ${ARROW_SEARCH_LIB_PATH_SUFFIXES}
                  NO_DEFAULT_PATH)
+    set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)  # https://stackoverflow.com/a/30721793/13103190
     set(import_lib "${${prefix}_import_lib}")
     set(${prefix}_IMPORT_LIB
         "${import_lib}"
@@ -197,11 +201,13 @@ macro(arrow_find_package_home)
     endif()
   endif()
 
+  set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER)  # https://stackoverflow.com/a/30721793/13103190
   find_library(${prefix}_static_lib
                NAMES "${static_lib_name}"
                PATHS "${home}"
                PATH_SUFFIXES ${ARROW_SEARCH_LIB_PATH_SUFFIXES}
                NO_DEFAULT_PATH)
+  set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)  # https://stackoverflow.com/a/30721793/13103190
   set(static_lib "${${prefix}_static_lib}")
   set(${prefix}_STATIC_LIB
       "${static_lib}"
@@ -304,10 +310,12 @@ macro(arrow_find_package_pkg_config)
                                      IMPORTED_LOCATION "${first_shared_lib_path}")
     get_target_property(shared_lib ${target_shared} IMPORTED_LOCATION)
 
+    set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER)  # https://stackoverflow.com/a/30721793/13103190
     find_library(${prefix}_static_lib
                  NAMES "${static_lib_name}"
                  PATHS "${lib_dir}"
                  NO_DEFAULT_PATH)
+    set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)  # https://stackoverflow.com/a/30721793/13103190
     set(static_lib "${${prefix}_static_lib}")
     set(${prefix}_STATIC_LIB
         "${static_lib}"

@@ -149,10 +149,12 @@ endfunction()
 #
 # Find package in HOME.
 macro(arrow_find_package_home)
+  set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER)  # https://stackoverflow.com/a/30721793/13103190
   find_path(${prefix}_include_dir "${header_path}"
             PATHS "${home}"
             PATH_SUFFIXES "include"
             NO_DEFAULT_PATH)
+  set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)  # https://stackoverflow.com/a/30721793/13103190
   set(include_dir "${${prefix}_include_dir}")
   set(${prefix}_INCLUDE_DIR
       "${include_dir}"
